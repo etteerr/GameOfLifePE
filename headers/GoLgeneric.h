@@ -85,6 +85,15 @@ extern "C" {
      * @return 0 on success
      */
     int generateMapInt(int *pDatapointer, double density, unsigned long seed, struct vector2u);
+     /**
+     * Generates a map and stores this in the memory given by the pointer
+     * This version is int **
+     * @param pDatapointer
+     * @param seed
+     * @param size in vector2 unsigned
+     * @return 0 on success
+     */
+    int generateMapIntP(int **pDatapointer, double density, unsigned long seed, struct vector2u);
     /**
      * Counts alive members in a interger map
      * @param pDatapointer

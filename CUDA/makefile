@@ -49,7 +49,7 @@ debug: $(target)
 	
 $(target) : $(source:%.c=%.o)
 	#remove -std=c11 flag
-	$(linker) $(FLAGS:-std%=) $(source:%.c=%.o) -o $@ $(LIBS)
+	$(linker) -Xcompiler "$(FLAGS:-std%=)" $(source:%.c=%.o) -o $@ $(LIBS)
 	
 clean:
 	rm -f *.o
