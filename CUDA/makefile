@@ -15,9 +15,13 @@ FLAGS =
 #libs, idem
 LIBS = 
 
+#Cuda
+CUC_FLAGS = -m64 -D_FORCE_INLINES --ptxas-options=-v -arch=sm_52
+
 #Binary target file
 target = ${bindir:%=%/}cuda
-source = main.c
+source = $(wildcard *.c) $(wildcard *.cu)
+objs = $(source:.c%=.o)
 
 #--- Common source files and headerfiles from arguments ---
 # Adds *.c files from ../src
@@ -45,11 +49,10 @@ debug: $(target)
 	$(builder) -c $(FLAGS) $< ${headers:%=-I%} -o $@ $(LIBS)
 	
 %.o: %.cu
-	$(nvbuilder) -c $(FLAGS) $< ${headers:%=-I%} -o $@ $(LIBS)
+	$(nvbuilder) $(CUC_FLAGS) -Xcompiler "$(FLAGS:-std%=)" -c  $< ${headers:%=-I%} -o $@ $(LIBS)
 	
-$(target) : $(source:%.c=%.o)
-	#remove -std=c11 flag
-	$(linker) -Xcompiler "$(FLAGS:-std%=)" $(source:%.c=%.o) -o $@ $(LIBS)
+$(target) :
+	$(linker)  $(CUC_FLAGS) -Xcompiler "$(FLAGS:-std%=)"  $(objs) ${headers:%=-I%} -o $@ $(LIBS)
 	
 clean:
 	rm -f *.o
