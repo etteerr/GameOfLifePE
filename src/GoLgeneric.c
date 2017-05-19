@@ -47,6 +47,7 @@ int parseInput(int nargs, char ** args, struct inputParameters* inpp){
     
     if (nargs == 2 && (strcmp(args[1], "--help")==0 || strcmp(args[1], "-h"))) {
         printhelp();
+        return 1;
     }
     
     //Extract arguments
@@ -74,7 +75,7 @@ int parseInput(int nargs, char ** args, struct inputParameters* inpp){
         if (strcmp(cmd, "-N")==0)
             inpp->width = inpp->height = atoll(args[arg++]);
     }
-    
+    return 0;
 }
 
 //Integer map opterations
@@ -82,7 +83,7 @@ int generateMapInt(int *map, double density, unsigned long seed, struct vector2u
     unsigned int s = seed;
 
     size_t elems = size.x * size.y;
-    size_t i;
+    size_t i, rest = elems-elems%4;
     
     //No multithead for consistancy reasons.
     for(i=0; i<elems; i+=4) {
@@ -91,9 +92,11 @@ int generateMapInt(int *map, double density, unsigned long seed, struct vector2u
             map[i+2] = (int)(density>=((double)rand_r(&s)/(double)RAND_MAX));
             map[i+3] = (int)(density>=((double)rand_r(&s)/(double)RAND_MAX));
     }
-    for(i-=3; i<elems; i++) {
+    for(i=rest; i<elems; i++) {
         map[i+0] = (int)(density>=((double)rand_r(&s)/(double)RAND_MAX));
     }
+    
+    return 0;
 }
 
 //Integer map opterations
@@ -107,12 +110,15 @@ int generateMapIntP(int **map, double density, unsigned long seed, struct vector
     for(x=0; x<size.x; x++)
         for(y=0; y<size.y; y++)
             map[x][y] = (int)(density>=((double)rand_r(&s)/(double)RAND_MAX));
+    
+    return 0;
 }
 
 size_t countAliveInt(int *map, struct vector2u size) {
     size_t elems = size.x * size.y;
     size_t i, acc1, acc2, acc3, acc4;
     acc1 = acc2 = acc3 = acc4 = 0;
+    size_t rest = elems-(elems % 4);
     
     for(i=0; i<elems; i+=4) {
         acc1 += map[i+0];
@@ -120,8 +126,10 @@ size_t countAliveInt(int *map, struct vector2u size) {
         acc3 += map[i+2];
         acc4 += map[i+3];
     }
-    for(i-=3; i<elems; i++)
+    for(i=rest; i<elems; i++)
         acc1 += map[i];
+    
+    return acc1 + acc2 + acc3 + acc4;
 }
 
 

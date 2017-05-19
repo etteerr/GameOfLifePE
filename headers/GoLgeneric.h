@@ -12,8 +12,8 @@
 
 #include <stdlib.h>
 
-#define get_rm(DATA,X,Y) DATA[y*width+x]
-//#define get_cm(DATA,X,Y) DATA[y+height*x]
+#define get_rm(DATA,X,Y) DATA[(X)*width+(Y)]
+//#define get_cm(DATA,X,Y) DATA[(Y)+height*(X)]
 
 struct inputParameters {
     size_t width, height, steps;
@@ -71,6 +71,7 @@ extern "C" {
      * @return 0 on success
      */
     int parseInput(int nargs, char ** args, struct inputParameters* inpp);
+    void printInputParameters(struct inputParameters * p);
     /**
      * Prints help info for parseInput (User level) 
      */
