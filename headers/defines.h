@@ -17,6 +17,7 @@
 //Game of life defines
 //TODO: Calculate flops
 #define FLOPS_GOL_INT(X,Y,S,T) ((double)(9*X*Y*S)/(double)T)
+#define MOPS_GOL_INT(X,Y,S,T) ((double)(10*X*Y*S)/(double)T)
 
 //Define units
 #define BYTE 1.0

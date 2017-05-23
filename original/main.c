@@ -11,6 +11,7 @@ Conway Game of Life
 #include <stdlib.h>
 #include <sys/time.h>
 #include "GoLgeneric.h"
+#include "defines.h"
 
 int bwidth, bheight, nsteps;
 int i, j, n, im, ip, jm, jp, ni, nj, nsum, isum;
@@ -136,6 +137,8 @@ int main(int argc, char *argv[]) {
 
     printf("Number of live cells = %d\n", isum);
     fprintf(stderr, "Game of Life took %10.3f seconds\n", rtime);
+    printf("Game of Life did %e FLOPS\n", FLOPS_GOL_INT(bwidth, bheight, nsteps, rtime));
+    printf("Processing %f Gbyte of info per second\n", (MOPS_GOL_INT(bwidth, bheight, nsteps, rtime)*4)/GBYTE);
 
     return 0;
 }

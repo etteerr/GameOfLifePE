@@ -90,4 +90,5 @@ int main(int nargs, char ** args) {
     checkCuda();
     
     printf("[%f] Execution succesfull, speed=%fGFLOPS\n", toc(), FLOPS_GOL_INT(p.width, p.height, p.steps, elaps)/GFLOPS);
+    printf("[%f] Execution succesfull, GByte/s=%f\n", toc(), MOPS_GOL_INT(4*p.width, p.height, p.steps, elaps)/GBYTE);
 }
