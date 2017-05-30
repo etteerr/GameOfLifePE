@@ -12,6 +12,8 @@
 
 #include <stdlib.h>
 
+typedef unsigned char uchar;
+
 #define get_rm(DATA,X,Y) DATA[(X)*width+(Y)]
 //#define get_cm(DATA,X,Y) DATA[(Y)+height*(X)]
 

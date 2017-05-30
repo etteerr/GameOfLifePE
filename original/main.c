@@ -79,6 +79,17 @@ void doTimeStep(int n) {
 }
 
 int main(int argc, char *argv[]) {
+    
+    struct vector2u s;
+    s.x = atoi(argv[1]);
+    s.y = atoi(argv[2]);
+    int * data = malloc(sizeof(int)*s.x*s.y);
+    generateMapInt(data, 0.6, 0, s);
+    void * data2 = malloc(((s.x*s.y)/8) + (size_t)((s.x*s.y)%8==0));
+    generateMapBinary(data2, 0.6, 0, s);
+    
+    printf("%zi and %zi\n", countAliveInt(data, s), countAliveBinary(data2, s));
+    exit(0);
     /* Get Parameters */
     struct inputParameters p;
     parseInput(argc, argv, &p);
