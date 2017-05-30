@@ -80,16 +80,6 @@ void doTimeStep(int n) {
 
 int main(int argc, char *argv[]) {
     
-    struct vector2u s;
-    s.x = 127;
-    s.y = 1;
-    int * data = malloc(sizeof(int)*s.x*s.y);
-    generateMapInt(data, 0.6, 0, s);
-    void * data2 = malloc(((s.x*s.y)/64) + 8*(size_t)((s.x*s.y)%64==0));
-    generateMapBinary64Little(data2, 0.6, 0, s);
-    
-    printf("%zi and %zi\n", countAliveInt(data, s), countAliveBinary64little(data2, s));
-    exit(0);
     /* Get Parameters */
     struct inputParameters p;
     parseInput(argc, argv, &p);
