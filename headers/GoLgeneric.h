@@ -128,7 +128,18 @@ extern "C" {
     //binary map operations
     int generateMapBinary(void *pDatapointer, double density,unsigned long seed, struct vector2u);
     size_t countAliveBinary(void *pDatapointer, struct vector2u);
-
+    
+    /**
+     * Generates binary map with 64 bits little endian storage
+     * Must be 64 bit padded!
+     * @param pDatapointer
+     * @param density
+     * @param seed
+     * @param size
+     * @return 
+     */
+    int generateMapBinary64Little(void *pDatapointer, double density, unsigned long seed, struct vector2u size);
+    size_t countAliveBinary64little(void *pDatapointer, struct vector2u);
 
 #ifdef __cplusplus
 }
