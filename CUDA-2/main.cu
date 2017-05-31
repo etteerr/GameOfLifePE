@@ -81,11 +81,12 @@ int main(int nargs, char ** args) {
     //Invoke kernel for step times
     dim3 blockDim(16,16);
     dim3 blocks((size.x/blockDim.x)+1,(size.y/blockDim.y)+1);
+    int shared = (16+2)*(16+2);
     tic2();
     for(size_t i = 0; i<p.steps/2; i++) {
-        cuda_kernel<<<blocks, blockDim>>>(cudaSrc, cudaDst, p.width, p.height);
+        cuda_kernel<<<blocks, blockDim, shared*sizeof(int)>>>(cudaSrc, cudaDst, p.width, p.height);
         cuda_kernel_edge<<<blocks, blockDim>>>(cudaSrc, cudaDst, p.width, p.height);
-        cuda_kernel<<<blocks, blockDim>>>(cudaDst, cudaSrc, p.width, p.height);
+        cuda_kernel<<<blocks, blockDim, shared*sizeof(int)>>>(cudaDst, cudaSrc, p.width, p.height);
         cuda_kernel_edge<<<blocks, blockDim>>>(cudaDst, cudaSrc, p.width, p.height);
     }
     elaps = toc2();

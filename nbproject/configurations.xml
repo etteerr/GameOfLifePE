@@ -6,6 +6,10 @@
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
+      <df name="CUDA-2">
+        <in>cudakernels.cu</in>
+        <in>main.cu</in>
+      </df>
       <df name="headers">
         <in>defines.h</in>
       </df>
@@ -149,6 +153,14 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="CUDA-2/cudakernels.cu" ex="false" tool="1" flavor2="0">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="CUDA-2/main.cu" ex="false" tool="1" flavor2="0">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
       <item path="CUDA/cudakernels.cu" ex="false" tool="1" flavor2="4">
         <ccTool flags="2">
         </ccTool>
