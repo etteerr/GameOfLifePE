@@ -6,73 +6,80 @@
 #include <cuda_runtime_api.h>
 #include <device_launch_parameters.h>
 
-#define getl(X,Y) local[((X)+1) + (blockDim.x+2) * ((Y)+1)]
-
 __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
-    unsigned int idx = blockIdx.x * blockDim.x + threadIdx.x;
     unsigned int idy = blockIdx.y * blockDim.y + threadIdx.y;
+    unsigned int stride = blockDim.x;
+    if (idy < height) {
+        dim3 p, c, n;
 
+        size_t acc1, acc2, acc3;
 
-    extern __shared__ int local[];
+        size_t i = threadIdx.x;
 
-
-    if (idx < width && idy < height) { //If we are not a edge
-
-        dim3 li(threadIdx.x, threadIdx.y);
-
-        //load own
-        getl(li.x, li.y) = get_rm(src, idx, idy);
-
-        size_t idxm1 = (size_t) (idx == 0) * width - 1 + (size_t) (idx > 0) * idx - 1;
-        size_t idxp1 = (size_t) (idx + 1 < width) * (idx + 1);
-        size_t idym1 = (size_t) (idy == 0) * height - 1 + (size_t) (idy > 0) * idy - 1;
+        //Initial volley
+        size_t idxm1 = (size_t) (i == 0) * width - 1 + (size_t) (i > 0) * (i - 1);
+        size_t idxp1 = (size_t) (i + 1 < width) * (i + 1);
+        size_t idym1 = (size_t) (idy == 0) * height - 1 + (size_t) (idy > 0) * (i - 1);
         size_t idyp1 = (size_t) (idy + 1 < height) * (idy + 1);
 
+        acc1 = get_rm(src, idxm1, idym1);
+        acc2 = get_rm(src, idxm1, idy);
+        acc3 = get_rm(src, idxm1, idyp1);
 
-        //Load extra
-        if (li.x == 0) //Left edge
-            getl(-1, li.y) = get_rm(src, idxm1, idy);
+        acc1 += get_rm(src, i, idym1);
+        acc2 += get_rm(src, i, idy);
+        acc3 += get_rm(src, i, idyp1);
 
-        if (li.y == 0) //Upper edge
-            getl(li.x, -1) = get_rm(src, idx, idym1);
+        acc1 += get_rm(src, idxp1, idym1);
+        acc2 += get_rm(src, idxp1, idy);
+        acc3 += get_rm(src, idxp1, idyp1);
 
-        if (li.x == 0 && li.y == 0) //Upper left corner
-            getl(-1, -1) = get_rm(src, idxm1, idym1);
+        acc1 += acc2 + acc3;
 
-        if (li.x == blockDim.x - 1 || idx == width - 1) // right edge
-            getl(li.x + 1, li.y) = get_rm(src, idxp1, idy);
+        get_rm(dst, i, idy) = (acc1 == 2 && get_rm(src, i, idy)) || acc1 == 3;
 
-        if (li.y == blockDim.y - 1 || idy == height - 1) //bottom edge
-            getl(li.x, li.y + 1) = get_rm(src, idx, idyp1);
+        //Main chunk
+        for (; (i + stride) < width - 1; i += stride) {
 
-        if ((li.y == blockDim.y - 1 || idy == height - 1) && li.x == 0) // lower left corner
-            getl(li.x - 1, li.y + 1) = get_rm(src, idxp1, idy);
+            acc1 = get_rm(src, i - 1, idym1);
+            acc2 = get_rm(src, i - 1, idy);
+            acc3 = get_rm(src, i - 1, idyp1);
 
-        if ((li.x == blockDim.x - 1 || idx == width - 1) || idy == 0) //upper right corner
-            getl(li.x + 1, li.y - 1) = get_rm(src, idx, idyp1);
+            acc1 += get_rm(src, i, idym1);
+            acc2 += get_rm(src, i, idy);
+            acc3 += get_rm(src, i, idyp1);
 
-        if ((li.y == blockDim.y - 1 || idy == height - 1) && (li.x == blockDim.x - 1 || idx == width - 1)) //lower right corner
-            getl(li.x + 1, li.y + 1) = get_rm(src, idxp1, idyp1);
+            acc1 += get_rm(src, i + 1, idym1);
+            acc2 += get_rm(src, i + 1, idy);
+            acc3 += get_rm(src, i + 1, idyp1);
 
-        //Calculate
+            acc1 += acc2 + acc3;
 
-        int acc = 0;
+            get_rm(dst, i, idy) = (acc1 == 2 && get_rm(src, i, idy)) || acc1 == 3;
+        }
 
-        acc += getl(li.x - 1, li.y + 1);
-        acc += getl(li.x - 1, li.y + 0);
-        acc += getl(li.x - 1, li.y - 1);
+        //Leftovers
+        i += stride;
 
-        acc += getl(li.x - 0, li.y + 1);
-        acc += getl(li.x - 0, li.y + 0);
-        acc += getl(li.x - 0, li.y - 1);
+        if (i < width) {
+            idxm1 = (size_t) (i == 0) * width - 1 + (size_t) (i > 0) * i - 1;
+            idxp1 = (size_t) (i + 1 < width) * (i + 1);
 
-        acc += getl(li.x + 1, li.y + 1);
-        acc += getl(li.x + 1, li.y + 0);
-        acc += getl(li.x + 1, li.y - 1);
+            acc1 = get_rm(src, idxm1, idym1);
+            acc2 = get_rm(src, idxm1, idy);
+            acc3 = get_rm(src, idxm1, idyp1);
 
-        //acc = 2 : x * 1 + 0
-        //acc = 3 : x * 0 + 1
-        //acc = ? : x * 0 + 0
-        get_rm(dst, idx, idy) = getl(li.x, li.y) * (int) (acc == 2) + (int) (acc == 3);
+            acc1 += get_rm(src, i, idym1);
+            acc2 += get_rm(src, i, idy);
+            acc3 += get_rm(src, i, idyp1);
+
+            acc1 += get_rm(src, idxp1, idym1);
+            acc2 += get_rm(src, idxp1, idy);
+            acc3 += get_rm(src, idxp1, idyp1);
+            
+            acc1 += acc2 + acc3;
+
+            get_rm(dst, i, idy) = (acc1 == 2 && get_rm(src, i, idy)) || acc1 == 3;
+        }
     }
 }

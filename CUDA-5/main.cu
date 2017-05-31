@@ -79,13 +79,12 @@ int main(int nargs, char ** args) {
     printf("[%f] Memory copy succesfull, speed=%fGb/s\n", toc(), GET_MEMSPEED(allocsize, elaps)/GBYTE);
     
     //Invoke kernel for step times
-    dim3 blockDim(128,8);
-    dim3 blocks((size.x/blockDim.x)+1,(size.y/blockDim.y)+1);
-    int shared = (blockDim.x+2)*(blockDim.y+2);
+    dim3 blockDim(8,8);
+    dim3 blocks(1,(size.y/blockDim.y)+1);
     tic2();
     for(size_t i = 0; i<p.steps/2; i++) {
-        cuda_kernel<<<blocks, blockDim, shared*sizeof(int)>>>(cudaSrc, cudaDst, p.width, p.height);
-        cuda_kernel<<<blocks, blockDim, shared*sizeof(int)>>>(cudaDst, cudaSrc, p.width, p.height);
+        cuda_kernel<<<blocks, blockDim>>>(cudaSrc, cudaDst, p.width, p.height);
+        cuda_kernel<<<blocks, blockDim>>>(cudaDst, cudaSrc, p.width, p.height);
     }
     cudaDeviceSynchronize();
     double felaps = toc2();

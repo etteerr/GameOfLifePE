@@ -20,9 +20,9 @@ __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
     if (idx < width && idy < height) {
         getl(li.x, li.y) = get_rm(src, idx, idy);
 
-        size_t idxm1 = (size_t) (idx == 0) * width - 1 + (size_t) (idx > 0) * idx - 1;
+        size_t idxm1 = (size_t) (idx == 0) * width - 1 + (size_t) (idx > 0) * (idx - 1);
         size_t idxp1 = (size_t) (idx + 1 < width) * (idx + 1);
-        size_t idym1 = (size_t) (idy == 0) * height - 1 + (size_t) (idy > 0) * idy - 1;
+        size_t idym1 = (size_t) (idy == 0) * height - 1 + (size_t) (idy > 0) * (idy - 1);
         size_t idyp1 = (size_t) (idy + 1 < height) * (idy + 1);
 
         if (li.x == 0) //Left edge
