@@ -65,13 +65,11 @@ __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
         acc += getl(li.x + 1, li.y + 1);
         acc += getl(li.x + 1, li.y + 0);
         acc += getl(li.x + 1, li.y - 1);
-
-        if (acc == 2)
-            get_rm(dst, idx, idy) = getl(li.x, li.y);
-        else if (acc == 3)
-            get_rm(dst, idx, idy) = 1;
-        else
-            get_rm(dst, idx, idy) = 0;
+        
+        //acc = 2 : x * 1 + 0
+        //acc = 3 : x * 0 + 1
+        //acc = ? : x * 0 + 0
+        get_rm(dst, idx, idy) = getl(li.x, li.y) * (int)(acc==2) + (int)(acc==3);
     }
 }
 
@@ -100,12 +98,7 @@ __global__ void cuda_kernel_edge(int * src, int * dst, size_t width, size_t heig
             acc += get_rm(src, idxp1, idy + 0);
             acc += get_rm(src, idxp1, idym1);
 
-            if (acc == 2)
-                get_rm(dst, idx, idy) = get_rm(src, idx, idy) != 0;
-            else if (acc == 3)
-                get_rm(dst, idx, idy) = 1;
-            else
-                get_rm(dst, idx, idy) = 0;
+            get_rm(dst, idx, idy) = get_rm(src, idx, idy) * (int)(acc==2) + (int)(acc==3);
         }
     }
 }

@@ -10,6 +10,10 @@
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
+      <df name="CUDA-3">
+        <in>cudakernels.cu</in>
+        <in>main.cu</in>
+      </df>
       <df name="headers">
         <in>defines.h</in>
       </df>
@@ -158,6 +162,14 @@
         </ccTool>
       </item>
       <item path="CUDA-2/main.cu" ex="false" tool="1" flavor2="0">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="CUDA-3/cudakernels.cu" ex="false" tool="1" flavor2="0">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="CUDA-3/main.cu" ex="false" tool="1" flavor2="0">
         <ccTool flags="2">
         </ccTool>
       </item>

@@ -12,6 +12,10 @@
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
+      <df name="CUDA-3">
+        <in>cudakernels.cu</in>
+        <in>main.cu</in>
+      </df>
       <df name="headers">
         <in>GoLgeneric.h</in>
         <in>defines.h</in>
