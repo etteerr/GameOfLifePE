@@ -1,5 +1,5 @@
 #Project targets
-SUBDIRS = original CUDA XEONPHI CUDA-2
+SUBDIRS = original CUDA XEONPHI CUDA-2 CUDA-3
 
 #Common settings
 bindir = ${CURDIR}/bin
