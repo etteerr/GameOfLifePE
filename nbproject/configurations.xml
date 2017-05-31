@@ -81,14 +81,6 @@
           </incDir>
         </cTool>
       </folder>
-      <folder path="TestFiles/f1">
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-          <linkerLibItems>
-            <linkerOptionItem>-lcunit</linkerOptionItem>
-          </linkerLibItems>
-        </linkerTool>
-      </folder>
       <item path="headers/defines.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="original/main.c" ex="false" tool="0" flavor2="10">
@@ -184,14 +176,6 @@
             <Elem>__NVCC__</Elem>
           </preprocessorList>
         </cTool>
-      </folder>
-      <folder path="TestFiles/f1">
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-          <linkerLibItems>
-            <linkerOptionItem>-lcunit</linkerOptionItem>
-          </linkerLibItems>
-        </linkerTool>
       </folder>
       <item path="original/main.c" ex="false" tool="0" flavor2="10">
         <cTool flags="0">
