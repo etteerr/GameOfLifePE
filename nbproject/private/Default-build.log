@@ -1,0 +1,11 @@
+mkdir -p /home/erwin/NetBeansProjects/GameOfLife/bin /home/erwin/NetBeansProjects/GameOfLife/headers /home/erwin/NetBeansProjects/GameOfLife/src
+/usr/bin/make -C CUDA release 	bindir=/home/erwin/NetBeansProjects/GameOfLife/bin common_source= headers=/home/erwin/NetBeansProjects/GameOfLife/headers common_libs= common_flags=
+/usr/bin/make -C XEONPHI release 	bindir=/home/erwin/NetBeansProjects/GameOfLife/bin common_source= headers=/home/erwin/NetBeansProjects/GameOfLife/headers common_libs= common_flags=
+make[1]: Entering directory '/home/erwin/NetBeansProjects/GameOfLife/XEONPHI'
+gcc -c   -g -O3 main.c -I/home/erwin/NetBeansProjects/GameOfLife/headers -o main.o  
+make[1]: Entering directory '/home/erwin/NetBeansProjects/GameOfLife/CUDA'
+gcc -c   -g -O3 main.c -I/home/erwin/NetBeansProjects/GameOfLife/headers -o main.o  
+nvcc main.o -o /home/erwin/NetBeansProjects/GameOfLife/bin/cuda  
+gcc main.o -o /home/erwin/NetBeansProjects/GameOfLife/bin/test-bin  
+make[1]: Leaving directory '/home/erwin/NetBeansProjects/GameOfLife/XEONPHI'
+make[1]: Leaving directory '/home/erwin/NetBeansProjects/GameOfLife/CUDA'

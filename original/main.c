@@ -108,6 +108,15 @@ int main(int argc, char *argv[]) {
     size.x = p.width;
     size.y = p.height;
     generateMapIntP(old, p.density, p.seed, size);
+    //Count initial
+    isum = 0;
+    for (i = 1; i <= bwidth; i++) {
+        for (j = 1; j <= bheight; j++) {
+            isum = isum + old[i][j];
+        }
+    }
+    
+    printf("Number of live cells = %d\n", isum);
 
     if (gettimeofday(&start, 0) != 0) {
         fprintf(stderr, "could not do timing\n");
