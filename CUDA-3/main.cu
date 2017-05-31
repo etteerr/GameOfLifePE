@@ -12,7 +12,7 @@
 #include "defines.h"
 
 __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height);
-__global__ void cuda_kernel_edge(int * src, int * dst, size_t width, size_t height);
+
 void die(char * message) {
     printf("Error: %s\nExiting...\n", message);
     exit(1);
@@ -85,11 +85,10 @@ int main(int nargs, char ** args) {
     tic2();
     for(size_t i = 0; i<p.steps/2; i++) {
         cuda_kernel<<<blocks, blockDim, shared*sizeof(int)>>>(cudaSrc, cudaDst, p.width, p.height);
-        cuda_kernel_edge<<<blocks, blockDim>>>(cudaSrc, cudaDst, p.width, p.height);
         cuda_kernel<<<blocks, blockDim, shared*sizeof(int)>>>(cudaDst, cudaSrc, p.width, p.height);
-        cuda_kernel_edge<<<blocks, blockDim>>>(cudaDst, cudaSrc, p.width, p.height);
     }
-    elaps = toc2();
+    cudaDeviceSynchronize();
+    double felaps = toc2();
     checkCuda();
     
     //copy memory back
@@ -108,8 +107,8 @@ int main(int nargs, char ** args) {
     alive = countAliveInt(data, size);
     printf("[%f] Alive: %zu\n", toc(), alive);
     
-    printf("[%f] Execution succesfull, speed=%fGFLOPS\n", toc(), FLOPS_GOL_INT(p.width, p.height, p.steps, elaps)/GFLOPS);
-    printf("[%f] Execution succesfull, GByte/s=%f\n", toc(), MOPS_GOL_INT(4*p.width, p.height, p.steps, elaps)/GBYTE);
+    printf("[%f] Execution succesfull, speed=%fGFLOPS\n", toc(), FLOPS_GOL_INT(p.width, p.height, p.steps, felaps)/GFLOPS);
+    printf("[%f] Execution succesfull, GByte/s=%f\n", toc(), MOPS_GOL_INT(4*p.width, p.height, p.steps, felaps)/GBYTE);
     
     cudaProfilerStop();
 }

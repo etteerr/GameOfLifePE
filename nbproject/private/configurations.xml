@@ -16,6 +16,10 @@
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
+      <df name="CUDA-4">
+        <in>cudakernels.cu</in>
+        <in>main.cu</in>
+      </df>
       <df name="headers">
         <in>GoLgeneric.h</in>
         <in>defines.h</in>
@@ -39,7 +43,7 @@
   <confs>
     <conf name="release" type="0">
       <toolsSet>
-        <developmentServer>etteerr@192.168.0.10:22</developmentServer>
+        <developmentServer>etteerr@etteerr.servebeer.com:6666</developmentServer>
         <platform>2</platform>
       </toolsSet>
       <compile>

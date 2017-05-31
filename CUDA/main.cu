@@ -88,7 +88,8 @@ int main(int nargs, char ** args) {
         cuda_kernel<<<blocks, blockDim>>>(cudaDst, cudaSrc, p.width, p.height);
         cuda_kernel_edge<<<blocks, blockDim>>>(cudaDst, cudaSrc, p.width, p.height);
     }
-    elaps = toc2();
+    cudaDeviceSynchronize();
+    double felaps = toc2();
     checkCuda();
     
     //copy memory back
@@ -107,8 +108,8 @@ int main(int nargs, char ** args) {
     alive = countAliveInt(data, size);
     printf("[%f] Alive: %zu\n", toc(), alive);
     
-    printf("[%f] Execution succesfull, speed=%fGFLOPS\n", toc(), FLOPS_GOL_INT(p.width, p.height, p.steps, elaps)/GFLOPS);
-    printf("[%f] Execution succesfull, GByte/s=%f\n", toc(), MOPS_GOL_INT(4*p.width, p.height, p.steps, elaps)/GBYTE);
+    printf("[%f] Execution succesfull, speed=%fGFLOPS\n", toc(), FLOPS_GOL_INT(p.width, p.height, p.steps, felaps)/GFLOPS);
+    printf("[%f] Execution succesfull, GByte/s=%f\n", toc(), MOPS_GOL_INT(4*p.width, p.height, p.steps, felaps)/GBYTE);
     
     cudaProfilerStop();
 }
