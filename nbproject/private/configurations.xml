@@ -16,11 +16,19 @@
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
+      <df name="CUDA-3-5">
+        <in>cudakernels.cu</in>
+        <in>main.cu</in>
+      </df>
       <df name="CUDA-4">
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
       <df name="CUDA-5">
+        <in>cudakernels.cu</in>
+        <in>main.cu</in>
+      </df>
+      <df name="CUDA-6">
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
@@ -47,7 +55,7 @@
   <confs>
     <conf name="release" type="0">
       <toolsSet>
-        <developmentServer>etteerr@etteerr.servebeer.com:6666</developmentServer>
+        <developmentServer>ediepgro@fs0.das5.cs.vu.nl:22</developmentServer>
         <platform>2</platform>
       </toolsSet>
       <compile>
@@ -92,7 +100,7 @@
     </conf>
     <conf name="debug" type="0">
       <toolsSet>
-        <developmentServer>etteerr@etteerr.servebeer.com:6666</developmentServer>
+        <developmentServer>ediepgro@fs0.das5.cs.vu.nl:22</developmentServer>
         <platform>2</platform>
       </toolsSet>
       <compile>
@@ -113,8 +121,6 @@
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
-        <gdb_signals>
-        </gdb_signals>
         <gdb_options>
           <DebugOptions>
           </DebugOptions>

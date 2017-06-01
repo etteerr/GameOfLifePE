@@ -14,11 +14,19 @@
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
+      <df name="CUDA-3-5">
+        <in>cudakernels.cu</in>
+        <in>main.cu</in>
+      </df>
       <df name="CUDA-4">
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
       <df name="CUDA-5">
+        <in>cudakernels.cu</in>
+        <in>main.cu</in>
+      </df>
+      <df name="CUDA-6">
         <in>cudakernels.cu</in>
         <in>main.cu</in>
       </df>
@@ -60,8 +68,7 @@
       </toolsSet>
       <flagsDictionary>
         <element flagsID="0" commonFlags="-std=c11 -fopenmp -g -O3"/>
-        <element flagsID="1" commonFlags="-xc -fopenmp -g -O3 -O3 -m64 -g"/>
-        <element flagsID="2" commonFlags="-xc++ -fopenmp -O3 -O3 -m64"/>
+        <element flagsID="1" commonFlags="-xc++ -fopenmp -O3 -O3 -m64"/>
       </flagsDictionary>
       <codeAssistance>
         <resolveSymbolicLinks>true</resolveSymbolicLinks>
@@ -105,36 +112,60 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="CUDA-2/cudakernels.cu" ex="false" tool="1" flavor2="0">
-        <ccTool flags="2">
+      <item path="CUDA-2/cudakernels.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="CUDA-2/main.cu" ex="false" tool="1" flavor2="0">
-        <ccTool flags="2">
+      <item path="CUDA-2/main.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="CUDA-3/cudakernels.cu" ex="false" tool="1" flavor2="0">
-        <ccTool flags="2">
+      <item path="CUDA-3-5/cudakernels.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="CUDA-3/main.cu" ex="false" tool="1" flavor2="0">
-        <ccTool flags="2">
+      <item path="CUDA-3-5/main.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="CUDA-4/cudakernels.cu" ex="false" tool="1" flavor2="0">
-        <ccTool flags="2">
+      <item path="CUDA-3/cudakernels.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="CUDA-4/main.cu" ex="false" tool="1" flavor2="0">
-        <ccTool flags="2">
+      <item path="CUDA-3/main.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="CUDA/cudakernels.cu" ex="false" tool="1" flavor2="0">
-        <ccTool flags="2">
+      <item path="CUDA-4/cudakernels.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
         </ccTool>
       </item>
-      <item path="CUDA/main.cu" ex="false" tool="1" flavor2="0">
-        <ccTool flags="2">
+      <item path="CUDA-4/main.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="CUDA-5/cudakernels.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="CUDA-5/main.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="CUDA-6/cudakernels.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="CUDA-6/main.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="CUDA/cudakernels.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
+        </ccTool>
+      </item>
+      <item path="CUDA/main.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="1">
         </ccTool>
       </item>
       <item path="XEONPHI/main.c" ex="false" tool="0" flavor2="10">
@@ -144,17 +175,8 @@
       <folder path="0/src">
         <cTool>
           <incDir>
-            <pElem>../../.cache/netbeans/8.2/remote-files/etteerr.servebeer.com_6666_etteerr/usr/targets/x86_64-linux/include</pElem>
-            <pElem>CUDA</pElem>
+            <pElem>original</pElem>
           </incDir>
-          <preprocessorList>
-            <Elem>_FORCE_INLINES</Elem>
-            <Elem>__CUDACC_VER_BUILD__=61</Elem>
-            <Elem>__CUDACC_VER_MAJOR__=8</Elem>
-            <Elem>__CUDACC_VER_MINOR__=0</Elem>
-            <Elem>__CUDACC_VER__=80061</Elem>
-            <Elem>__NVCC__</Elem>
-          </preprocessorList>
         </cTool>
       </folder>
       <item path="original/main.c" ex="false" tool="0" flavor2="10">
@@ -162,11 +184,11 @@
         </cTool>
       </item>
       <item path="src/GoLgeneric.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="1">
+        <cTool flags="0">
         </cTool>
       </item>
       <item path="src/tictoc.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="1">
+        <cTool flags="0">
         </cTool>
       </item>
     </conf>
@@ -231,6 +253,14 @@
         <ccTool flags="2">
         </ccTool>
       </item>
+      <item path="CUDA-3-5/cudakernels.cu" ex="false" tool="1" flavor2="0">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="CUDA-3-5/main.cu" ex="false" tool="1" flavor2="0">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
       <item path="CUDA-3/cudakernels.cu" ex="false" tool="1" flavor2="4">
         <ccTool flags="2">
         </ccTool>
@@ -239,19 +269,27 @@
         <ccTool flags="2">
         </ccTool>
       </item>
-      <item path="CUDA-4/cudakernels.cu" ex="false" tool="1" flavor2="0">
+      <item path="CUDA-4/cudakernels.cu" ex="false" tool="1" flavor2="4">
         <ccTool flags="2">
         </ccTool>
       </item>
-      <item path="CUDA-4/main.cu" ex="false" tool="1" flavor2="0">
+      <item path="CUDA-4/main.cu" ex="false" tool="1" flavor2="4">
         <ccTool flags="2">
         </ccTool>
       </item>
-      <item path="CUDA-5/cudakernels.cu" ex="false" tool="1" flavor2="0">
+      <item path="CUDA-5/cudakernels.cu" ex="false" tool="1" flavor2="4">
         <ccTool flags="2">
         </ccTool>
       </item>
-      <item path="CUDA-5/main.cu" ex="false" tool="1" flavor2="0">
+      <item path="CUDA-5/main.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="CUDA-6/cudakernels.cu" ex="false" tool="1" flavor2="4">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="CUDA-6/main.cu" ex="false" tool="1" flavor2="4">
         <ccTool flags="2">
         </ccTool>
       </item>

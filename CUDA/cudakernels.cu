@@ -19,7 +19,7 @@ __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
         acc += get_rm(src, idx - 1, idy - 1);
 
         acc += get_rm(src, idx, idy + 1);
-        acc += get_rm(src, idx, idy + 0);
+//        acc += get_rm(src, idx, idy + 0);
         acc += get_rm(src, idx, idy - 1);
 
         acc += get_rm(src, idx + 1, idy + 1);
@@ -43,9 +43,9 @@ __global__ void cuda_kernel_edge(int * src, int * dst, size_t width, size_t heig
         if (idx < width && idy < height) {
             int acc = 0;
 
-            size_t idxm1 = (size_t)(idx==0) * width - 1 + (size_t)(idx>0) * idx-1;
+            size_t idxm1 = (size_t)(idx==0) * (width - 1) + (size_t)(idx>0) * idx-1;
             size_t idxp1 = (size_t)(idx+1<width) * (idx+1);
-            size_t idym1 = (size_t)(idy==0) * height - 1 + (size_t)(idy>0) * idy-1;
+            size_t idym1 = (size_t)(idy==0) * (height - 1) + (size_t)(idy>0) * idy-1;
             size_t idyp1 = (size_t)(idy+1<height) * (idy+1);
 
             acc += get_rm(src, idxm1, idyp1);

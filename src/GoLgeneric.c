@@ -176,22 +176,28 @@ int generateMapBinary64Little(void *pDatapointer, double density, unsigned long 
     size_t elems = size.x * size.y;
     unsigned long long buffer = 0;
     unsigned int s = seed;
+    
+    unsigned int twidth = (size.y / 64);
+    size_t wadj = (size.y % (sizeof (buffer)*8)) > 0;
 
-    rest = elems % (sizeof (buffer)*8);
+    rest = size.y % (sizeof (buffer)*8);
+    int x;
+    for (int y = 0; y < size.y; y++) {
+        for (x = 0; x < twidth; x++) {
+            for (int j = sizeof (buffer)*8-1; j >= 0; j--)
+                buffer |= ((unsigned long long) (density >= ((double) rand_r(&s) / (double) RAND_MAX))) << j;
 
-    for (i = 0; i < elems / (sizeof (buffer)*8); i++) {
-        for (int j = sizeof (buffer)*8; j >= 0; j--)
-            buffer |= ((unsigned long long) (density >= ((double) rand_r(&s) / (double) RAND_MAX))) << j;
+            *((unsigned long long*) (pDatapointer) + x + y*(twidth+wadj)) = buffer;
+            buffer = 0;
+        }
 
-        *((unsigned long long*) (pDatapointer)+ i) = buffer;
-        buffer = 0;
-    }
-
-    if (rest) {
-        for (int j = sizeof (buffer)*8 - 1; j >= sizeof (buffer)*8 - rest; j--)
-            buffer |= ((unsigned long long) (density >= ((double) rand_r(&s) / (double) RAND_MAX))) << j;
-
-        *((unsigned long long*) (pDatapointer)+ i) = buffer;
+        if (rest>0) {
+            for (int j = sizeof (buffer)*8-1; j >= sizeof (buffer)*8-rest; j--)
+                buffer |= ((unsigned long long) (density >= ((double) rand_r(&s) / (double) RAND_MAX))) << j;
+            
+            *((unsigned long long*) (pDatapointer) + x + y*(twidth+1)) = buffer;
+            buffer = 0;
+        }
     }
 
     return 0;
@@ -258,11 +264,11 @@ size_t countAliveBinary64little(void *pDatapointer, struct vector2u size) {
 
     size_t elems = size.x * size.y;
 
-    elems = elems / (sizeof (unsigned long long)*8) + (size_t)((elems % (sizeof (unsigned long long)*8))>0);
+    elems = elems / (sizeof (unsigned long long)*8) + (size_t) ((elems % (sizeof (unsigned long long)*8)) > 0);
 
-    
-    for(size_t i = 0; i<elems; i++) 
-        count += __builtin_popcountll(*((unsigned long long *)(pDatapointer)+i));
+
+    for (size_t i = 0; i < elems; i++)
+        count += __builtin_popcountll(*((unsigned long long *) (pDatapointer) + i));
 
 
     return count;

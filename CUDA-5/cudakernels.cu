@@ -17,9 +17,9 @@ __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
         size_t i = threadIdx.x;
 
         //Initial volley
-        size_t idxm1 = (size_t) (i == 0) * width - 1 + (size_t) (i > 0) * (i - 1);
+        size_t idxm1 = (size_t) (i == 0) * (width - 1) + (size_t) (i > 0) * (i - 1);
         size_t idxp1 = (size_t) (i + 1 < width) * (i + 1);
-        size_t idym1 = (size_t) (idy == 0) * height - 1 + (size_t) (idy > 0) * (i - 1);
+        size_t idym1 = (size_t) (idy == 0) * (height - 1) + (size_t) (idy > 0) * (i - 1);
         size_t idyp1 = (size_t) (idy + 1 < height) * (idy + 1);
 
         acc1 = get_rm(src, idxm1, idym1);
@@ -27,7 +27,7 @@ __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
         acc3 = get_rm(src, idxm1, idyp1);
 
         acc1 += get_rm(src, i, idym1);
-        acc2 += get_rm(src, i, idy);
+//        acc2 += get_rm(src, i, idy);
         acc3 += get_rm(src, i, idyp1);
 
         acc1 += get_rm(src, idxp1, idym1);

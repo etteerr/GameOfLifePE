@@ -20,9 +20,9 @@ __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
     if (idx < width && idy < height) {
         getl(li.x, li.y) = get_rm(src, idx, idy);
 
-        size_t idxm1 = (size_t) (idx == 0) * width - 1 + (size_t) (idx > 0) * (idx - 1);
+        size_t idxm1 = (size_t) (idx == 0) * (width - 1) + (size_t) (idx > 0) * (idx - 1);
         size_t idxp1 = (size_t) (idx + 1 < width) * (idx + 1);
-        size_t idym1 = (size_t) (idy == 0) * height - 1 + (size_t) (idy > 0) * (idy - 1);
+        size_t idym1 = (size_t) (idy == 0) * (height - 1) + (size_t) (idy > 0) * (idy - 1);
         size_t idyp1 = (size_t) (idy + 1 < height) * (idy + 1);
 
         if (li.x == 0) //Left edge
@@ -60,7 +60,7 @@ __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
         acc += getl(li.x - 1, li.y - 1);
 
         acc += getl(li.x - 0, li.y + 1);
-        acc += getl(li.x - 0, li.y + 0);
+//        acc += getl(li.x - 0, li.y + 0);
         acc += getl(li.x - 0, li.y - 1);
 
         acc += getl(li.x + 1, li.y + 1);
@@ -70,6 +70,6 @@ __global__ void cuda_kernel(int * src, int * dst, size_t width, size_t height) {
         //acc = 2 : x * 1 + 0
         //acc = 3 : x * 0 + 1
         //acc = ? : x * 0 + 0
-        get_rm(dst, idx, idy) = getl(li.x, li.y) * (int)(acc==2) + (int)(acc==3);
+        get_rm(dst, idx, idy) = getl(li.x, li.y) * (acc==2) + (acc==3);
     }
 }

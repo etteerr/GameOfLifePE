@@ -16,7 +16,7 @@ FLAGS =
 LIBS = 
 
 #Cuda
-CUC_FLAGS = -G -m64 -D_FORCE_INLINES --ptxas-options=-v -arch=sm_52
+CUC_FLAGS = -m64 -D_FORCE_INLINES --ptxas-options=-v -arch=sm_52
 
 #Binary target file
 target = ${bindir:%=%/}cuda-5
@@ -36,14 +36,14 @@ all: release
 
 .PHONY: release
 #Release settings, adds release flags
-release: FLAGS += -g -O3
-release: CUC_FLAGS+= -g -O3
+release: FLAGS += -O3
+release: CUC_FLAGS+= -O3
 release: $(target)
 
 .PHONY: debug
 #debug, adds debug settings (flags)
 debug: FLAGS += -g -O0
-debug: CUC_FLAGS+= -g -O0
+debug: CUC_FLAGS+= -G -g -O0
 debug: $(target)
 	
 #build all object files (includes common source), headers are also included.
