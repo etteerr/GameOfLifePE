@@ -96,9 +96,10 @@ __global__ void cuda_kernel(uint64 * src, uint64 * dst, size_t width, size_t hei
         unsigned int idym1 = (unsigned int) (idy == 0) * (height - 1) + (unsigned int) (idy > 0) * (idy - 1);
         unsigned int idyp1 = (unsigned int) (idy + 1 < height) * (idy + 1);
         
-        unsigned int suml, sumr;
+        unsigned int suml, sumr, sftedg;
         char bitl, bitr;
-
+        
+        sftedg = (63-((idxp1==0) * width%64))*(idxp1==0);
  
         data1 = get64(src, idx, idym1);
         data2 = get64(src, idx, idy);
@@ -106,7 +107,7 @@ __global__ void cuda_kernel(uint64 * src, uint64 * dst, size_t width, size_t hei
         
         uint64 res = step64(data1, data2, data3);
         
-        sumr = data1 & 0x1 + data2 & 0x1 + data3 & 0x1;
+        sumr = (data1 >> sftedg) & 0x1 + (data2 >> sftedg) & 0x1 + (data3 >> sftedg) & 0x1;
         suml = data1 >> 63 & 0x1 + data2 >> 63 & 0x1 + data3 >> 63 & 0x1;
         bitl = data2 >> 63 & 0x1;
         bitr = data2 & 0x1;
@@ -129,7 +130,7 @@ __global__ void cuda_kernel(uint64 * src, uint64 * dst, size_t width, size_t hei
             res &= mask;
         
         res |= ((bitl & suml==2) || suml==3) << 63;
-        res |= ((bitr & sumr==2) || sumr==3);
+        res |= ((bitr & sumr==2) || sumr==3) << sftedg;
         
         get64(dst, idx, idy) = res;
     }

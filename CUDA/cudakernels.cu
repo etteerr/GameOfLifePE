@@ -53,7 +53,7 @@ __global__ void cuda_kernel_edge(int * src, int * dst, size_t width, size_t heig
             acc += get_rm(src, idxm1, idym1);
 
             acc += get_rm(src, idx, idyp1);
-            acc += get_rm(src, idx, idy + 0);
+            //acc += get_rm(src, idx, idy + 0);
             acc += get_rm(src, idx, idym1);
 
             acc += get_rm(src, idxp1, idyp1);
